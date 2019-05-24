@@ -35,9 +35,6 @@ public class CameraMovement : MonoBehaviour
 
     private void LateUpdate()
     {
-        // Smoothly update the player follower's position
-        target.position = Vector3.Lerp(target.position, playerBody.position + targetBodyOffset, Time.deltaTime * followSpeed);
-
         // Update the camera's rotation
         yaw += Input.GetAxis("Mouse X") * mouseSensitivity;
         pitch -= Input.GetAxis("Mouse Y") * mouseSensitivity;
@@ -80,5 +77,11 @@ public class CameraMovement : MonoBehaviour
 
         // Update position
         transform.position = nextPosition;
+    }
+    
+    private void FixedUpdate ()
+    {
+        // Smoothly update the player follower's position, must be in FixedUpdate when following a RigidBody or else camera jerks
+        target.position = Vector3.Lerp(target.position, playerBody.position + targetBodyOffset, Time.deltaTime * followSpeed);
     }
 }
